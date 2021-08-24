@@ -1,0 +1,39 @@
+{
+  "name": "project_back_end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon",
+    "production": "pm2 start index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BDMoraes/Project_back_end.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BDMoraes/Project_back_end/issues"
+  },
+  "homepage": "https://github.com/BDMoraes/Project_back_end#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "consign": "^0.1.6",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jwt-simple": "^0.5.6",
+    "knex": "^0.95.10",
+    "moment": "^2.29.1",
+    "node-schedule": "^2.0.0",
+    "nodemon": "^2.0.12",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "pg": "^8.7.1",
+    "pm2": "^5.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
