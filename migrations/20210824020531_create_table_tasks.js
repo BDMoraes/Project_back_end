@@ -7,7 +7,7 @@ exports.up = function(knex) {
         table.integer('localizacao').notNull();
         table.integer('prioridade').notNull();
         table.integer('entrega').notNull();
-        table.integer('dailyId').references('id').inTable('daily');
+        table.integer('dailyId').references('id').inTable('daily').notNull();
     })
   
 };
