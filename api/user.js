@@ -29,19 +29,19 @@ module.exports = app => {
             return res.status(400).send(msg)
         }
 
-        user.password = encryptPassword(user.senha)
+        user.senha = encryptPassword(user.senha)
         delete user.confirmSenha
 
         if (user.id) {
             app.db('users')
-                .update(user)
+                .update()
                 .where({ id: user.id })
                 .whereNull('deletedAt')
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
             app.db('users')
-                .insert(user)
+                .insert([user])
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         }
