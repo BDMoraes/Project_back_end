@@ -43,11 +43,9 @@ module.exports = app => {
                 }
             }
         } catch (e) {
-            // problema com o token
         }
-
         res.send(false)
     }
 
-    return {signin, validateToken}
+    return { signin, validateToken }
 }
