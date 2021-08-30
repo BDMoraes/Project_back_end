@@ -57,5 +57,5 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
-    return { save, remove, getById }
+    return {save, remove, getById}
 }
