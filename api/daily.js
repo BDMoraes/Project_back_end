@@ -1,18 +1,29 @@
 module.exports = app => {
     const { existsOrError, notExistsOrError } = app.api.validator
 
-    const save = (req, res) => {
-        const daily = {
-            id: req.body.id,
-            titulo: req.body.titulo,
-            status: req.body.status,
-            userId: req.body.userId
-        }
-
+    const save = async (req, res) => {
+        const daily = { ...req.body }
         if (req.params.id) daily.id = req.params.id
 
         try {
-            existsOrError(daily.titulo, 'Nome não informado')
+            existsOrError(daily.titulo, 'Título não informado')
+            existsOrError(daily.status, 'Status não informado')
+            existsOrError(daily.userId, 'Usuário não informado')
+
+            const id = daily.userId;
+
+            const userFromDB = await app.db('users')
+                .where({ id: id }).first()
+
+            existsOrError(userFromDB, 'Usuário não cadastrado!')
+
+            const status = daily.status;
+
+            const dailyStatusFromDB = await app.db('daily')
+                .where({ status: status, userId: daily.userId }).first()
+
+            notExistsOrError(dailyStatusFromDB, 'O usuário possui diários ativos')
+
         } catch (msg) {
             return res.status(400).send(msg)
         }
@@ -57,5 +68,5 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
-    return {save, remove, getById}
+    return { save, remove, getById }
 }
