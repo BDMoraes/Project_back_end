@@ -10,6 +10,7 @@ module.exports = app => {
 
     app.route('/users/:id')
         .all(app.config.passport.authenticate())
+        .get(app.api.user.getById)
         .put(app.api.user.save)
         .delete(app.api.user.remove)
 
@@ -20,6 +21,5 @@ module.exports = app => {
     app.route('/daily/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.daily.getById)
-        .put(app.api.daily.save)
         .delete(app.api.daily.remove)
 }

@@ -36,7 +36,7 @@ module.exports = app => {
             app.db('users')
                 .update()
                 .where({ id: user.id })
-                .whereNull('deletedAt')
+                //.whereNull('deletedAt')
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
@@ -52,7 +52,7 @@ module.exports = app => {
         app.db('users')
             .select('id', 'nome', 'email')
             .where({ id: req.params.id })
-            .whereNull('deletedAt')
+            //.whereNull('deletedAt')
             .first()
             .then(user => res.json(user))
             .catch(err => res.status(500).send(err))
@@ -62,10 +62,11 @@ module.exports = app => {
         try {
             const daily = await app.db('daily')
                 .where({ userId: req.params.id })
+
             notExistsOrError(daily, 'Usuário possui diários.')
 
             const rowsUpdated = await app.db('users')
-                .update({ deletedAt: new Date() })
+                //.update({ deletedAt: new Date() })
                 .where({ id: req.params.id })
             existsOrError(rowsUpdated, 'Usuário não foi encontrado.')
 

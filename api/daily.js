@@ -17,10 +17,8 @@ module.exports = app => {
 
             existsOrError(userFromDB, 'Usuário não cadastrado!')
 
-            const status = daily.status;
-
             const dailyStatusFromDB = await app.db('daily')
-                .where({ status: status, userId: daily.userId }).first()
+                .where({ status: "ativo", userId: daily.userId }).first()
 
             notExistsOrError(dailyStatusFromDB, 'O usuário possui diários ativos')
 
@@ -42,12 +40,21 @@ module.exports = app => {
         }
     }
 
+    const getById = (req, res) => {
+        app.db('daily')
+            .where({ id: req.params.id })
+            .first()
+            .then(daily => res.json(daily))
+            .catch(err => res.status(500).send(err))
+    }
+
     const remove = async (req, res) => {
         try {
             existsOrError(req.params.id, 'Código não informado')
 
             const tasks = await app.db('tasks')
                 .where({ dailyId: req.params.id })
+
             notExistsOrError(tasks, 'Diário possui tarefas')
 
             const rowsDeleted = await app.db('daily')
@@ -60,13 +67,5 @@ module.exports = app => {
         }
     }
 
-    const getById = (req, res) => {
-        app.db('daily')
-            .where({ id: req.params.id })
-            .first()
-            .then(daily => res.json(daily))
-            .catch(err => res.status(500).send(err))
-    }
-
-    return { save, remove, getById }
+    return { save, getById, remove }
 }
