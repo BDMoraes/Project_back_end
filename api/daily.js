@@ -7,8 +7,8 @@ module.exports = app => {
 
         try {
             existsOrError(daily.titulo, 'Título não informado')
-            existsOrError(daily.status, 'Status não informado')
-            existsOrError(daily.userId, 'Usuário não informado')
+            existsOrError(daily.status, 'Parâmetro não informado')
+            existsOrError(daily.userId, 'Parâmetro não informado')
 
             const id = daily.userId;
 

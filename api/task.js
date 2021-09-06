@@ -11,6 +11,9 @@ module.exports = app => {
             existsOrError(task.localizacao, 'Localização não informada')
             existsOrError(task.prioridade, 'Prioridade não informada')
             existsOrError(task.entrega, 'Horário não informado')
+            existsOrError(task.status, 'Parâmetro não informado')
+            existsOrError(task.noPrazo, 'Parâmetro não informado')
+            existsOrError(task.dailyId, 'Parâmetro não informado')
 
             const id = task.dailyId;
 
@@ -19,24 +22,19 @@ module.exports = app => {
 
             existsOrError(dailyFromDB, 'Diário não cadastrado!')
 
-            const dailyStatusFromDB = await app.db('daily')
-                .where({ status: "ativo", Id: id }).first()
-
-            notExistsOrError(dailyStatusFromDB, 'O usuário possui diários ativos')
-
 
         } catch (msg) {
             return res.status(400).send(msg)
         }
 
         if (task.id) {
-            app.db('task')
+            app.db('tasks')
                 .update(task)
                 .where({ id: task.id })
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
-            app.db('task')
+            app.db('tasks')
                 .insert(task)
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
@@ -44,7 +42,7 @@ module.exports = app => {
     }
 
     const getById = (req, res) => {
-        app.db('task')
+        app.db('tasks')
             .where({ id: req.params.id })
             .first()
             .then(task => res.json(task))
@@ -56,11 +54,11 @@ module.exports = app => {
             existsOrError(req.params.id, 'Código não informado')
 
             const taskStatus = await app.db('tasks')
-                .where({ id: req.params.id, stutus: "andamento" })
+                .where({ id: req.params.id, status: "andamento" })
 
             notExistsOrError(taskStatus, 'Tarefa em andamento')
 
-            const rowsDeleted = await app.db('task')
+            const rowsDeleted = await app.db('tasks')
                 .where({ id: req.params.id }).del()
             existsOrError(rowsDeleted, 'tarefa não foi encontrada')
 
