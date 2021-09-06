@@ -22,4 +22,13 @@ module.exports = app => {
         .all(app.config.passport.authenticate())
         .get(app.api.daily.getById)
         .delete(app.api.daily.remove)
+
+    app.route('/task')
+        .all(app.config.passport.authenticate())
+        .post(app.api.task.save)
+
+    app.route('/task/:id')
+        .all(app.config.passport.authenticate())
+        .get(app.api.task.getById)
+        .delete(app.api.task.remove)
 }
