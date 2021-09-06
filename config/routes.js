@@ -31,4 +31,8 @@ module.exports = app => {
         .all(app.config.passport.authenticate())
         .get(app.api.task.getById)
         .delete(app.api.task.remove)
+
+    app.route('/normalize')
+        .all(app.config.passport.authenticate())
+        .post(app.api.normalize.start)
 }
