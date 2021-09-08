@@ -236,9 +236,11 @@ module.exports = app => {
         if (mais_fitness.length == 0) {
             console.log("Individuo mais apto para o problema: ");
             console.log(melhor);
+            return melhor;
         } else {
             console.log("Individuo perfeito para o problema: ");
             console.log(mais_fitness);
+            return mais_fitness;
         }
     }
 

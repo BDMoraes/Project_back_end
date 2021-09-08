@@ -9,6 +9,7 @@ exports.up = function (knex) {
         table.integer('entrega').notNull();
         table.string('status').notNull();
         table.integer('noPrazo');
+        table.integer('sequenciamento');
         table.integer('dailyId').references('id').inTable('daily').notNull();
     })
 

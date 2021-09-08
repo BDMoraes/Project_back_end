@@ -16,13 +16,20 @@ module.exports = app => {
             existsOrError(dailyFromDB, 'Diário não cadastrado!')
 
             const tasksFromDB = await app.db('tasks')
-                .where({ dailyId: id })
-                //continue point
+                .where({ dailyId: id, status: "aguardando" })
+    
+            let array_taks = [];
+
+            for (let index = 0; index < tasksFromDB.lenght; index++) {
+                array_taks.push(tasksFromDB[index]);  
+            }
+
+            const sequencia = AG.rodar(array_taks);
+            //continue point
 
         } catch (msg) {
             return res.status(400).send(msg)
         }
-
     }
 
     return { start }
