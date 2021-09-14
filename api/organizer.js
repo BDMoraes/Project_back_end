@@ -7,7 +7,7 @@ module.exports = app => {
             this.cromossomo = cromossomo;
             this.f_objetivo = function () {
                 for (let index = 0; index < tarefas_parametro.length; index++) {
-                    this.cromossomo = this.cromossomo + ` ${this.tarefas[index].simbolo} `;
+                    this.cromossomo = this.cromossomo + ` ${this.tarefas[index].sequenciamento} `;
                 }
             };
             this.f_eficiencia = function (tarefas_rec) {
@@ -31,7 +31,7 @@ module.exports = app => {
         let individuo01 = new individuo(tarefas, 0, cromossomo);
 
         for (let index = 0; index < individuo01.tarefas.length; index++) {
-            individuo01.tarefas[index].simbolo = index;
+            individuo01.tarefas[index].sequenciamento = index;
         }
 
         individuo01.eficiencia = individuo01.f_eficiencia(individuo01.tarefas);
@@ -137,7 +137,7 @@ module.exports = app => {
         let valor_trocar = [];
         let lista_auxiliar = [];
         for (let x = 0; x < tarefas.length; x++) {
-            lista_auxiliar.push(indiv_filho[x].simbolo);
+            lista_auxiliar.push(indiv_filho[x].sequenciamento);
         }
         for (let x = 0; x < tarefas.length; x++) {
             if (lista_auxiliar.indexOf(x) == (-1)) {
@@ -158,7 +158,7 @@ module.exports = app => {
         }
 
         for (let x = 0; x < tarefas.length; x++) {
-            indiv_filho[x].simbolo = lista_auxiliar[x];
+            indiv_filho[x].sequenciamento = lista_auxiliar[x];
         }
     }
 
