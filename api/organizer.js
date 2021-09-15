@@ -219,6 +219,8 @@ module.exports = app => {
 
     function rodar(tarefas) {
 
+        console.log("passei aqui 1")
+
         var registros_geracao = [];
         var tamanho_pop = 0;
         var melhor = {};
@@ -226,6 +228,8 @@ module.exports = app => {
         var cont = 0;
 
         criar_populacao_inicial(tarefas, registros_geracao, tamanho_pop);
+
+        console.log("passei aqui 2")
 
         do {
             selecao(registros_geracao, tamanho_pop);
