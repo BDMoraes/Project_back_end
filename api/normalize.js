@@ -1,4 +1,4 @@
-const { AG } = require('./organizer');
+const AG = require('./organizer');
 
 module.exports = app => {
     const { existsOrError } = app.api.validator
@@ -43,6 +43,7 @@ module.exports = app => {
                     tasksFromDB[index].entrega)
                 );
             }
+
             console.log("aqui");
 
             const sequencia = AG.rodar(array_taks);
