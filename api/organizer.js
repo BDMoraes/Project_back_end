@@ -246,4 +246,4 @@ function rodar(tarefas) {
     }
 }
 
-module.exports = rodar();
+module.exports = {rodar};

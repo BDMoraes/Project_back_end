@@ -1,4 +1,4 @@
-const AG = require('./organizer');
+const {rodar : AG} = require('./organizer');
 
 module.exports = app => {
     const { existsOrError } = app.api.validator
