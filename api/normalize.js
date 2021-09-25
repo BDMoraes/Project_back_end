@@ -1,4 +1,4 @@
-const {rodar : AG} = require('./organizer');
+const AG = require('./organizer');
 
 module.exports = app => {
     const { existsOrError } = app.api.validator
@@ -29,28 +29,29 @@ module.exports = app => {
             const tasksFromDB = await app.db('tasks')
                 .where({ dailyId: id, status: "aguardando" })
 
-
             let array_taks = [];
 
             const tasksDB = Array.from(tasksFromDB);
 
             for (let index = 0; index < tasksDB.length; index++) {
                 array_taks.push(new tarefa(
-                    tasksFromDB[index].sequenciamento,
-                    tasksFromDB[index].id,
-                    tasksFromDB[index].prioridade,
-                    tasksFromDB[index].localizacao,
-                    tasksFromDB[index].entrega)
+                    tasksDB[index].sequenciamento,
+                    tasksDB[index].id,
+                    tasksDB[index].prioridade,
+                    tasksDB[index].localizacao,
+                    tasksDB[index].entrega)
                 );
             }
 
-            console.log("aqui");
-
-            const sequencia = AG.rodar(array_taks);
+            const sequencia =  Array.from(AG.rodar(array_taks));
 
             console.log("voltei");
+            console.log(sequencia[0]);
+            console.log("tamanhoo");
+            console.log("tamanho:" + sequencia[0].length)
 
-            for (let index = 0; index < sequencia.tarefas.length; index++) {
+            for (let index = 0; index < sequencia[0].length; index++) {
+                console.log("perto do final");
                 app.db('tasks')
                     .where({ id: sequencia.tarefas[index].id })
                     .update({ sequenciamento: index })

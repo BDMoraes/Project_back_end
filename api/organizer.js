@@ -10,7 +10,7 @@ class individuo {
         };
         this.f_eficiencia = function (tarefas_rec) {
             let calc_eficiencia = 0;
-            let ciclo = tarefas.length - 1;
+            let ciclo = tarefas_rec.length - 1;
             for (let index = 0; index < ciclo; index++) {
                 if (tarefas_rec[index].grau > tarefas_rec[index + 1].grau) {
                     calc_eficiencia++;
@@ -27,6 +27,8 @@ function criar_populacao_inicial(tarefas, registros_geracao, tamanho_pop) {
     let cromossomo = "";
 
     let individuo01 = new individuo(tarefas, 0, cromossomo);
+
+    
 
     for (let index = 0; index < individuo01.tarefas.length; index++) {
         individuo01.tarefas[index].sequenciamento = index;
@@ -57,16 +59,18 @@ function criar_populacao_inicial(tarefas, registros_geracao, tamanho_pop) {
     }
 
     tamanho_pop = registros_geracao.length;
-
 }
 
-function selecao(registros_geracao, tamanho_pop) {
+function selecao(registros_geracao, tamanho_pop, mais_fitness, cont) {
 
-    imprime_geracao(registros_geracao, tamanho_pop);
-
+    imprime_geracao(registros_geracao, tamanho_pop, mais_fitness, cont);
+    console.log("==========================")
+    console.log(registros_geracao)
     registros_geracao.sort(function (a, b) {
         return a.eficiencia < b.eficiencia ? -1 : a.eficiencia > b.eficiencia ? 1 : 0;
     });
+
+    console.log("passei aqui 3")
 
     let proxima_geracao = [];
     proxima_geracao.push(registros_geracao[0]);
@@ -190,10 +194,11 @@ function clonar(object) {
     return clone;
 };
 
-function imprime_geracao(geracao_atual, tamanho_pop) {
+function imprime_geracao(geracao_atual, tamanho_pop, mais_fitness, cont) {
     for (let index = 0; index < geracao_atual.length; index++) {
         if (geracao_atual[index].eficiencia == 0) {
             mais_fitness.push(geracao_atual[index]);
+            break;
         }
     }
 
@@ -217,8 +222,6 @@ function imprimir(array, tamanho_pop) {
 
 function rodar(tarefas) {
 
-    console.log("passei aqui 1")
-
     var registros_geracao = [];
     var tamanho_pop = 0;
     var melhor = {};
@@ -227,10 +230,9 @@ function rodar(tarefas) {
 
     criar_populacao_inicial(tarefas, registros_geracao, tamanho_pop);
 
-    console.log("passei aqui 2")
-
     do {
-        selecao(registros_geracao, tamanho_pop);
+        selecao(registros_geracao, tamanho_pop, mais_fitness, cont);
+        console.log("passei aqui 2")
         mutacao(tarefas, registros_geracao, tamanho_pop);
     } while (mais_fitness.length == 0 && cont < 350);
 

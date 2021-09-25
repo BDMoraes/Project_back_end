@@ -18,7 +18,7 @@ module.exports = app => {
             existsOrError(userFromDB, 'Usuário não cadastrado!')
 
             const dailyStatusFromDB = await app.db('daily')
-                .where({ status: "ativo", userId: daily.userId }).first()
+                .where({ status: "andamento", userId: daily.userId }).first()
 
             notExistsOrError(dailyStatusFromDB, 'O usuário possui diários ativos')
 
