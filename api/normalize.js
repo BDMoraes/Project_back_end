@@ -29,13 +29,15 @@ module.exports = app => {
             const tasksFromDB = await app.db('tasks')
                 .where({ dailyId: id, status: "aguardando" })
 
+            existsOrError(tasksFromDB, 'Diário não possui tarefas')
+
             let array_taks = [];
 
             const tasksDB = Array.from(tasksFromDB);
 
             for (let index = 0; index < tasksDB.length; index++) {
                 array_taks.push(new tarefa(
-                    tasksDB[index].sequenciamento,
+                    0,
                     tasksDB[index].id,
                     tasksDB[index].prioridade,
                     tasksDB[index].localizacao,
@@ -43,26 +45,30 @@ module.exports = app => {
                 );
             }
 
-            const sequencia =  Array.from(AG.rodar(array_taks));
+            const sequencia = Array.from(AG.rodar(array_taks));
 
-            console.log("voltei");
-            console.log(sequencia[0]);
-            console.log("tamanhoo");
-            console.log("tamanho:" + sequencia[0].length)
+            console.log(sequencia[0])
+            console.log("tamanho:" + tasksDB.length)
+            console.log(sequencia[0].tarefas[4].simbolo) 
 
-            for (let index = 0; index < sequencia[0].length; index++) {
-                console.log("perto do final");
+            for (let index = 0; index < tasksDB.length; index++) {
                 app.db('tasks')
-                    .where({ id: sequencia.tarefas[index].id })
-                    .update({ sequenciamento: index })
-                    .then(_ => res.status(204).send())
-                    .catch(err => res.status(500).send(err))
+                    .where({ id: sequencia[0].tarefas[index].id })
+                    .update({ sequenciamento: sequencia[0].tarefas[index].simbolo })
             }
+
+
+            if (sequencia != undefined) {
+                app.db('daily')
+                    .where({ id: id })
+                    .update({ status: "ativo" })
+            }
+
+            res.status(204).send();
 
         } catch (msg) {
             return res.status(400).send(msg)
         }
     }
-
     return { start }
 }

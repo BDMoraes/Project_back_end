@@ -5,7 +5,7 @@ class individuo {
         this.cromossomo = cromossomo;
         this.f_objetivo = function () {
             for (let index = 0; index < tarefas_parametro.length; index++) {
-                this.cromossomo = this.cromossomo + ` ${this.tarefas[index].sequenciamento} `;
+                this.cromossomo = this.cromossomo + ` ${this.tarefas[index].simbolo} `;
             }
         };
         this.f_eficiencia = function (tarefas_rec) {
@@ -16,7 +16,9 @@ class individuo {
                     calc_eficiencia++;
                 }
             }
+            console.log("eficiencia: " + calc_eficiencia)
             return calc_eficiencia;
+            
         }
 
     }
@@ -28,10 +30,12 @@ function criar_populacao_inicial(tarefas, registros_geracao, tamanho_pop) {
 
     let individuo01 = new individuo(tarefas, 0, cromossomo);
 
-    
+    console.log(individuo01);
+
+    let tam_temp = tamanho_pop;
 
     for (let index = 0; index < individuo01.tarefas.length; index++) {
-        individuo01.tarefas[index].sequenciamento = index;
+        individuo01.tarefas[index].simbolo = index;
     }
 
     individuo01.eficiencia = individuo01.f_eficiencia(individuo01.tarefas);
@@ -58,23 +62,23 @@ function criar_populacao_inicial(tarefas, registros_geracao, tamanho_pop) {
         registros_geracao.push(novo);
     }
 
-    tamanho_pop = registros_geracao.length;
+    tam_temp = registros_geracao.length;
+
+    return tam_temp;
 }
 
-function selecao(registros_geracao, tamanho_pop, mais_fitness, cont) {
+function selecao(tarefas, registros_geracao, tamanho_pop, mais_fitness, cont) {
 
-    imprime_geracao(registros_geracao, tamanho_pop, mais_fitness, cont);
-    console.log("==========================")
-    console.log(registros_geracao)
+    imprime_geracao(registros_geracao, mais_fitness, cont);
+
     registros_geracao.sort(function (a, b) {
         return a.eficiencia < b.eficiencia ? -1 : a.eficiencia > b.eficiencia ? 1 : 0;
     });
 
-    console.log("passei aqui 3")
-
     let proxima_geracao = [];
     proxima_geracao.push(registros_geracao[0]);
     proxima_geracao.push(registros_geracao[1]);
+
 
     for (let index = 2; index < tamanho_pop; index++) {
         let random1 = Math.floor(Math.random() * registros_geracao.length);
@@ -96,7 +100,7 @@ function selecao(registros_geracao, tamanho_pop, mais_fitness, cont) {
             indiv_mae = clonar(registros_geracao[random4]);
         }
 
-        let tarefas_novas = crossover(indiv_pai, indiv_mae);
+        let tarefas_novas = crossover(tarefas, indiv_pai, indiv_mae);
         let novo = new individuo(tarefas_novas, 0, "");
         novo.f_objetivo();
         novo.eficiencia = novo.f_eficiencia(novo.tarefas);
@@ -106,7 +110,7 @@ function selecao(registros_geracao, tamanho_pop, mais_fitness, cont) {
     registros_geracao = [...proxima_geracao];
 }
 
-function crossover(indiv_pai, indiv_mae) {
+function crossover(tarefas, indiv_pai, indiv_mae) {
     let indiv_filho = [];
     let mascara = [];
 
@@ -128,12 +132,12 @@ function crossover(indiv_pai, indiv_mae) {
         }
     }
 
-    verificar_duplicados(indiv_filho);
+    verificar_duplicados(tarefas, indiv_filho);
 
     return (indiv_filho);
 }
 
-function verificar_duplicados(indiv_filho) {
+function verificar_duplicados(tarefas, indiv_filho) {
     let existe = 0;
     let posicao_trocar = 0;
     let valor_trocar = [];
@@ -182,7 +186,6 @@ function mutacao(tarefas, registros_geracao, tamanho_pop) {
         novo.eficiencia = novo.f_eficiencia(novo.tarefas);
         registros_geracao[index] = clonar(novo);
     }
-
 }
 
 function clonar(object) {
@@ -192,9 +195,9 @@ function clonar(object) {
         clone[i] = item != null && typeof item == 'object' ? clonar(item) : item;
     }
     return clone;
-};
+}
 
-function imprime_geracao(geracao_atual, tamanho_pop, mais_fitness, cont) {
+function imprime_geracao(geracao_atual, mais_fitness, cont) {
     for (let index = 0; index < geracao_atual.length; index++) {
         if (geracao_atual[index].eficiencia == 0) {
             mais_fitness.push(geracao_atual[index]);
@@ -203,22 +206,12 @@ function imprime_geracao(geracao_atual, tamanho_pop, mais_fitness, cont) {
     }
 
     cont++;
-    console.log("=============  GERAÇÃO: " + cont + " =============");
-    imprimir(geracao_atual, tamanho_pop);
-
     geracao_atual.sort(function (a, b) {
         return a.eficiencia < b.eficiencia ? -1 : a.eficiencia > b.eficiencia ? 1 : 0;
     });
 
     melhor = geracao_atual[0];
 }
-
-function imprimir(array, tamanho_pop) {
-    for (let x = 0; x < tamanho_pop; x++) {
-        console.log(`[ ${array[x].cromossomo} ]`);
-    }
-}
-
 
 function rodar(tarefas) {
 
@@ -228,24 +221,21 @@ function rodar(tarefas) {
     var mais_fitness = [];
     var cont = 0;
 
-    criar_populacao_inicial(tarefas, registros_geracao, tamanho_pop);
+    tamanho_pop = criar_populacao_inicial(tarefas, registros_geracao, tamanho_pop);
 
     do {
-        selecao(registros_geracao, tamanho_pop, mais_fitness, cont);
-        console.log("passei aqui 2")
+        selecao(tarefas, registros_geracao, tamanho_pop, mais_fitness, cont);
         mutacao(tarefas, registros_geracao, tamanho_pop);
     } while (mais_fitness.length == 0 && cont < 350);
 
 
     if (mais_fitness.length == 0) {
-        console.log("Individuo mais apto para o problema: ");
-        console.log(melhor);
+        console.log("o melhor")
         return melhor;
     } else {
-        console.log("Individuo perfeito para o problema: ");
-        console.log(mais_fitness);
+        console.log("o mais fitness")
         return mais_fitness;
     }
 }
 
-module.exports = {rodar};
+module.exports = { rodar };
