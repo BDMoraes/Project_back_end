@@ -14,25 +14,43 @@ module.exports = app => {
         .put(app.api.user.save)
         .delete(app.api.user.remove)
 
-    app.route('/daily')
+    app.route('/dailys')
         .all(app.config.passport.authenticate())
         .post(app.api.daily.save)
 
-    app.route('/daily/:id')
+    app.route('/dailys/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.daily.getById)
         .delete(app.api.daily.remove)
 
-    app.route('/task')
+    app.route('/query-waiting-dailys')
+        .all(app.config.passport.authenticate())
+        .get(app.api.daily.waitingDailys)
+
+    app.route('/query-running-dailys')
+        .all(app.config.passport.authenticate())
+        .get(app.api.daily.runningDailys)
+
+    app.route('/tasks')
         .all(app.config.passport.authenticate())
         .post(app.api.task.save)
 
-    app.route('/task/:id')
+    app.route('/tasks/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.task.getById)
         .delete(app.api.task.remove)
+    
+    app.route('/query-waiting-tasks/dailys/:id')
+        .all(app.config.passport.authenticate())
+        .get(app.api.task.waitingTasks)
 
-    app.route('/normalize')
+    app.route('/query-running-tasks/dailys/:id')
+        .all(app.config.passport.authenticate())
+        .get(app.api.task.runningTasks)
+
+    app.route('/normalizies')
         .all(app.config.passport.authenticate())
         .post(app.api.normalize.start)
+
+
 }

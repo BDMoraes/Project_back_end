@@ -49,7 +49,7 @@ module.exports = app => {
 
             console.log(sequencia[0])
             console.log("tamanho:" + tasksDB.length)
-            console.log(sequencia[0].tarefas[4].simbolo) 
+            console.log(sequencia[0].tarefas[4].simbolo)
 
             for (let index = 0; index < tasksDB.length; index++) {
                 app.db('tasks')

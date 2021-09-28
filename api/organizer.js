@@ -18,7 +18,7 @@ class individuo {
             }
             console.log("eficiencia: " + calc_eficiencia)
             return calc_eficiencia;
-            
+
         }
 
     }
