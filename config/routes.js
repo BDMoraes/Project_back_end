@@ -40,11 +40,11 @@ module.exports = app => {
         .get(app.api.task.getById)
         .delete(app.api.task.remove)
     
-    app.route('/query-waiting-tasks/dailys/:id')
+    app.route('/query-waiting-tasks')
         .all(app.config.passport.authenticate())
         .get(app.api.task.waitingTasks)
 
-    app.route('/query-running-tasks/dailys/:id')
+    app.route('/query-running-tasks')
         .all(app.config.passport.authenticate())
         .get(app.api.task.runningTasks)
 

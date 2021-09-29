@@ -204,7 +204,6 @@ function imprime_geracao(geracao_atual, mais_fitness, cont) {
             break;
         }
     }
-
     cont++;
     geracao_atual.sort(function (a, b) {
         return a.eficiencia < b.eficiencia ? -1 : a.eficiencia > b.eficiencia ? 1 : 0;

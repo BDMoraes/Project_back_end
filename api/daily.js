@@ -17,11 +17,6 @@ module.exports = app => {
 
             existsOrError(userFromDB, 'Usuário não cadastrado!')
 
-            const dailyStatusFromDB = await app.db('daily')
-                .where({ status: "andamento", userId: daily.userId }).first()
-
-            notExistsOrError(dailyStatusFromDB, 'O usuário possui diários ativos')
-
         } catch (msg) {
             return res.status(400).send(msg)
         }
@@ -68,20 +63,24 @@ module.exports = app => {
     }
 
     const waitingDailys = (req, res) => {
+
+        const dailys = { ...req.body }
+
         app.db('daily')
-            .select('id', 'nome', 'email')
-            .where({ id: req.params.id })
+            .where({ userId: dailys.userId, status: 'aguardando' })
             .first()
-            .then(user => res.json(user))
+            .then(daily => res.json(daily))
             .catch(err => res.status(500).send(err))
     }
 
     const runningDailys = (req, res) => {
+
+        const dailys = { ...req.body }
+
         app.db('daily')
-            .select('id', 'nome', 'email')
-            .where({ id: req.params.id })
+            .where({ userId: dailys.userId, status: 'andamento' })
             .first()
-            .then(user => res.json(user))
+            .then(daily => res.json(daily))
             .catch(err => res.status(500).send(err))
     }
 
