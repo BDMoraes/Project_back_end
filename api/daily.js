@@ -84,5 +84,16 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
-    return { save, getById, remove, waitingDailys, runningDailys }
+    const completeDailys = (req, res) => {
+
+        const dailys = { ...req.body }
+
+        app.db('daily')
+            .where({ userId: dailys.userId, status: 'concluido' })
+            .then(daily => res.json(daily))
+            .catch(err => res.status(500).send(err))
+    }
+
+
+    return { save, getById, remove, waitingDailys, runningDailys, completeDailys}
 }

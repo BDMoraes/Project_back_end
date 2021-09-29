@@ -21,6 +21,7 @@ module.exports = app => {
     app.route('/dailys/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.daily.getById)
+        .put(app.api.daily.save)
         .delete(app.api.daily.remove)
 
     app.route('/query-waiting-dailys')
@@ -30,6 +31,10 @@ module.exports = app => {
     app.route('/query-running-dailys')
         .all(app.config.passport.authenticate())
         .get(app.api.daily.runningDailys)
+
+    app.route('/query-complete-dailys')
+        .all(app.config.passport.authenticate())
+        .get(app.api.daily.completeDailys)
 
     app.route('/tasks')
         .all(app.config.passport.authenticate())
@@ -47,6 +52,10 @@ module.exports = app => {
     app.route('/query-running-tasks')
         .all(app.config.passport.authenticate())
         .get(app.api.task.runningTasks)
+
+    app.route('/query-complete-tasks')
+        .all(app.config.passport.authenticate())
+        .get(app.api.task.completeTasks)
 
     app.route('/normalizies')
         .all(app.config.passport.authenticate())

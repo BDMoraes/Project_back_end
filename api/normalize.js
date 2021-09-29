@@ -57,7 +57,6 @@ module.exports = app => {
                     .update({ sequenciamento: sequencia[0].tarefas[index].simbolo })
             }
 
-
             if (sequencia != undefined) {
                 app.db('daily')
                     .where({ id: id })
