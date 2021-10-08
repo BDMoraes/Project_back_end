@@ -24,11 +24,11 @@ module.exports = app => {
         .put(app.api.daily.save)
         .delete(app.api.daily.remove)
 
-    app.route('/query-waiting-dailys')
+    app.route('/query-waiting-dailys/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.daily.waitingDailys)
 
-    app.route('/query-running-dailys')
+    app.route('/query-running-dailys/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.daily.runningDailys)
 
@@ -45,15 +45,15 @@ module.exports = app => {
         .get(app.api.task.getById)
         .delete(app.api.task.remove)
     
-    app.route('/query-waiting-tasks')
+    app.route('/query-waiting-tasks/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.task.waitingTasks)
 
-    app.route('/query-running-tasks')
+    app.route('/query-running-tasks/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.task.runningTasks)
 
-    app.route('/query-complete-tasks')
+    app.route('/query-complete-tasks/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.task.completeTasks)
 

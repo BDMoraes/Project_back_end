@@ -64,7 +64,8 @@ module.exports = app => {
 
     const waitingDailys = (req, res) => {
 
-        const dailys = { ...req.body }
+        const dailys = { ...req.params}
+        console.log(dailys.id)
 
         app.db('daily')
             .where({ userId: dailys.userId, status: 'aguardando' })
@@ -75,7 +76,8 @@ module.exports = app => {
 
     const runningDailys = (req, res) => {
 
-        const dailys = { ...req.body }
+        const dailys = { ...req.params }
+        console.log(dailys.id)
 
         app.db('daily')
             .where({ userId: dailys.userId, status: 'andamento' })
