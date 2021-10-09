@@ -64,11 +64,10 @@ module.exports = app => {
 
     const waitingDailys = (req, res) => {
 
-        const dailys = { ...req.params}
-        console.log(dailys.id)
+        const dailysUser = req.params.id
 
         app.db('daily')
-            .where({ userId: dailys.userId, status: 'aguardando' })
+            .where({ userId: dailysUser, status: 'aguardando' })
             .first()
             .then(daily => res.json(daily))
             .catch(err => res.status(500).send(err))
@@ -76,11 +75,10 @@ module.exports = app => {
 
     const runningDailys = (req, res) => {
 
-        const dailys = { ...req.params }
-        console.log(dailys.id)
+        const dailysUser = req.params.id
 
         app.db('daily')
-            .where({ userId: dailys.userId, status: 'andamento' })
+            .where({ userId: dailysUser, status: 'andamento' })
             .first()
             .then(daily => res.json(daily))
             .catch(err => res.status(500).send(err))
@@ -88,10 +86,10 @@ module.exports = app => {
 
     const completeDailys = (req, res) => {
 
-        const dailys = { ...req.body }
+        const dailysUser = req.params.id
 
         app.db('daily')
-            .where({ userId: dailys.userId, status: 'concluido' })
+            .where({ userId: dailysUser, status: 'concluido' })
             .then(daily => res.json(daily))
             .catch(err => res.status(500).send(err))
     }

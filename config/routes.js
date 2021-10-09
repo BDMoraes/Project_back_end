@@ -32,7 +32,7 @@ module.exports = app => {
         .all(app.config.passport.authenticate())
         .get(app.api.daily.runningDailys)
 
-    app.route('/query-complete-dailys')
+    app.route('/query-complete-dailys/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.daily.completeDailys)
 

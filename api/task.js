@@ -69,29 +69,29 @@ module.exports = app => {
     }
 
     const waitingTasks = (req, res) => {
-        const task = { ...req.body }
+        const tasksFromDaily = req.params.id
 
         app.db('tasks')
-            .where({ dailyId: task.dailyId, status: 'aguardando' })
+            .where({ dailyId: tasksFromDaily, status: 'aguardando' })
             .then(tasks => res.json(tasks))
             .catch(err => res.status(500).send(err))
     }
 
     const runningTasks = (req, res) => {
-        const task = { ...req.body }
+        const tasksFromDaily = req.params.id
 
         app.db('tasks')
-            .where({ dailyId: task.dailyId, status: 'andamento' })
+            .where({ dailyId: tasksFromDaily, status: 'andamento' })
             .then(tasks => res.json(tasks))
             .catch(err => res.status(500).send(err))
     }
 
     const completeTasks = (req, res) => {
 
-        const task = { ...req.body }
+        const tasksFromDaily = req.params.id
 
         app.db('tasks')
-            .where({ dailyId: task.dailyId, status: 'concluido' })
+            .where({ dailyId: tasksFromDaily, status: 'concluido' })
             .then(tasks => res.json(tasks))
             .catch(err => res.status(500).send(err))
     }
