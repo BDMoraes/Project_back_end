@@ -17,8 +17,6 @@ module.exports = app => {
 
         task.entrega = hora
 
-        console.log(task)
-
         try {
             existsOrError(task.status, 'Status não informado')
             existsOrError(task.dailyId, 'Diário não informado')
@@ -27,8 +25,6 @@ module.exports = app => {
             existsOrError(task.entrega, 'Horário não informado')
             existsOrError(task.titulo, 'Título não informado')
             existsOrError(task.descricao, 'Descrição não informada')
-            
-            console.log("passei aqui")
 
             const id = task.dailyId;
 
@@ -37,21 +33,17 @@ module.exports = app => {
 
             existsOrError(dailyFromDB, 'Diário não cadastrado!')
 
-            console.log("passei aqui 2")
-
         } catch (msg) {
             return res.status(400).send(msg)
         }
 
         if (task.id != undefined) {
-            console.log("passei aqui 3")
             app.db('tasks')
                 .update(task)
                 .where({ id: task.id })
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
-            console.log("passei aqui 4")
             app.db('tasks')
                 .insert(task)
                 .then(_ => res.status(204).send())

@@ -12,6 +12,8 @@ module.exports = app => {
         const user = { ...req.body }
         if (req.params.id) user.id = req.params.id
 
+        console.log(user)
+
         try {
             existsOrError(user.nome, 'Nome não informado')
             existsOrError(user.email, 'E-mail não informado')
@@ -20,9 +22,10 @@ module.exports = app => {
             equalsOrError(user.senha, user.confirmSenha, 'Senhas não conferem')
             minPassword(user.senha, 'Senha precisa ter no mínimo 6 caracteres')
 
-            const userFromDB = await app.db('users')
-                .where({ email: user.email }).first()
+
             if (!user.id) {
+                const userFromDB = await app.db('users')
+                    .where({ email: user.email }).first()
                 notExistsOrError(userFromDB, 'Usuário já cadastrado!')
             }
         } catch (msg) {
@@ -36,7 +39,6 @@ module.exports = app => {
             app.db('users')
                 .update()
                 .where({ id: user.id })
-                //.whereNull('deletedAt')
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
@@ -52,7 +54,6 @@ module.exports = app => {
         app.db('users')
             .select('id', 'nome', 'email')
             .where({ id: req.params.id })
-            //.whereNull('deletedAt')
             .first()
             .then(user => res.json(user))
             .catch(err => res.status(500).send(err))
@@ -66,7 +67,6 @@ module.exports = app => {
             notExistsOrError(daily, 'Usuário possui diários.')
 
             const rowsUpdated = await app.db('users')
-                //.update({ deletedAt: new Date() })
                 .where({ id: req.params.id })
             existsOrError(rowsUpdated, 'Usuário não foi encontrado.')
 

@@ -95,5 +95,5 @@ module.exports = app => {
     }
 
 
-    return { save, getById, remove, waitingDailys, runningDailys, completeDailys}
+    return { save, getById, remove, waitingDailys, runningDailys, completeDailys }
 }
