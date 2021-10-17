@@ -43,6 +43,7 @@ module.exports = app => {
     app.route('/tasks/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.task.getById)
+        .put(app.api.task.save)
         .delete(app.api.task.remove)
     
     app.route('/query-waiting-tasks/:id')
