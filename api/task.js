@@ -105,5 +105,14 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
-    return { save, getById, remove, waitingTasks, runningTasks, completeTasks }
+    const updateTasks = (req, res) => {
+        const Daily = req.params.id
+        app.db('tasks')
+            .where({ dailyId: Daily })
+            .update({status: 'andamento'})
+            .then(_ => res.status(204).send())
+            .catch(err => res.status(500).send(err))
+    }
+
+    return { save, getById, remove, waitingTasks, runningTasks, completeTasks, updateTasks }
 }
