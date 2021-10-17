@@ -12,8 +12,6 @@ module.exports = app => {
         const user = { ...req.body }
         if (req.params.id) user.id = req.params.id
 
-        console.log(user)
-
         try {
             existsOrError(user.nome, 'Nome não informado')
             existsOrError(user.email, 'E-mail não informado')

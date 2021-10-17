@@ -5,7 +5,6 @@ module.exports = app => {
         const task = { ...req.body }
         task.id = req.params.id
 
-
         let data = task.entrega
         let hour = data.substr(0, 2)
         let min = data.substring(3, 5)
