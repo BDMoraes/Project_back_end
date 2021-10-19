@@ -15,11 +15,11 @@ module.exports = app => {
     }
 
     const start = async (req, res) => {
-        const requisicao = { ...req.body }
+        const requisicao =  req.params.id
 
         try {
 
-            const id = requisicao.dailyId;
+            const id = requisicao;
 
             const dailyFromDB = await app.db('daily')
                 .where({ id: id }).first()
@@ -27,7 +27,7 @@ module.exports = app => {
             existsOrError(dailyFromDB, 'Diário não cadastrado!')
 
             const tasksFromDB = await app.db('tasks')
-                .where({ dailyId: id, status: "aguardando" })
+                .where({ dailyId: id, status: "andamento" })
 
             existsOrError(tasksFromDB, 'Diário não possui tarefas')
 
@@ -57,11 +57,11 @@ module.exports = app => {
                     .update({ sequenciamento: sequencia[0].tarefas[index].simbolo })
             }
 
-            if (sequencia != undefined) {
-                app.db('daily')
-                    .where({ id: id })
-                    .update({ status: "ativo" })
-            }
+            // if (sequencia != undefined) {
+            //     app.db('daily')
+            //         .where({ id: id })
+            //         .update({ status: "ativo" })
+            // }
 
             res.status(204).send();
 
