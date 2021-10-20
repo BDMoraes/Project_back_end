@@ -104,6 +104,18 @@ module.exports = app => {
             .then(tasks => res.json(tasks))
             .catch(err => res.status(500).send(err))
     }
+    
+
+    const organizedTasks = (req, res) => {
+
+        const tasksFromDaily = req.params.id
+
+        app.db('tasks')
+            .where({ dailyId: tasksFromDaily, status: 'andamento' })
+            .orderBy('sequenciamento')
+            .then(tasks => res.json(tasks))
+            .catch(err => res.status(500).send(err))
+    }
 
     const updateTasks = (req, res) => {
         const Daily = req.params.id
@@ -114,5 +126,6 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
-    return { save, getById, remove, waitingTasks, runningTasks, completeTasks, updateTasks }
+    return { save, getById, remove, waitingTasks, runningTasks, completeTasks, 
+            organizedTasks, updateTasks }
 }
