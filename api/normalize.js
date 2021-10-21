@@ -8,9 +8,9 @@ module.exports = app => {
             this.id = identificador;
             this.prioridade = prioridade;
             this.local = local;
-            this.tempo = tempo;
+            this.tempo = parseFloat(tempo);
             this.simbolo = sequenciamento;
-            this.grau = this.prioridade + this.local + this.tempo;
+            this.grau = parseFloat(this.prioridade + this.local + this.tempo);
         }
     }
 
