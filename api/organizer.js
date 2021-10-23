@@ -16,9 +16,7 @@ class individuo {
                     calc_eficiencia++;
                 }
             }
-            console.log("eficiencia: " + calc_eficiencia)
             return calc_eficiencia;
-
         }
 
     }
@@ -29,8 +27,6 @@ function criar_populacao_inicial(tarefas, registros_geracao, tamanho_pop) {
     let cromossomo = "";
 
     let individuo01 = new individuo(tarefas, 0, cromossomo);
-
-    console.log(individuo01);
 
     let tam_temp = tamanho_pop;
 
@@ -49,15 +45,15 @@ function criar_populacao_inicial(tarefas, registros_geracao, tamanho_pop) {
         let random1 = Math.floor(Math.random() * tarefas.length);
         let random2 = Math.floor(Math.random() * tarefas.length);
 
-        let individuo_novo = clonar(individuo01);
+        const individuo_novo = clonar(individuo01);
 
         individuo_novo.cromossomo = "";
 
-        let auxiliar = clonar(individuo_novo.tarefas[random1]);
+        const auxiliar = clonar(individuo_novo.tarefas[random1]);
         individuo_novo.tarefas[random1] = clonar(individuo_novo.tarefas[random2]);
         individuo_novo.tarefas[random2] = clonar(auxiliar);
         individuo_novo.f_objetivo();
-        let novo = new individuo(individuo_novo.tarefas, 0, individuo_novo.cromossomo);
+        const novo = new individuo(individuo_novo.tarefas, 0, individuo_novo.cromossomo);
         novo.eficiencia = novo.f_eficiencia(novo.tarefas);
         registros_geracao.push(novo);
     }
@@ -188,14 +184,46 @@ function mutacao(tarefas, registros_geracao, tamanho_pop) {
     }
 }
 
-function clonar(object) {
-    let clone = {};
-    for (var i in object) {
-        const item = object[i];
-        clone[i] = item != null && typeof item == 'object' ? clonar(item) : item;
+// function clonar(object) {
+//     let clone = {};
+//     for (var i in object) {
+//         const item = object[i];
+//         clone[i] = item != null && typeof item == 'object' ? clonar(item) : item;
+//     }
+//     return clone;
+// }
+
+const clonar = obj => {
+
+    if (typeof obj !== 'object' || obj === null) {
+        return obj;
     }
-    return clone;
+
+    let cloned, i;
+
+    if (obj instanceof Date) {
+        cloned = new Date(obj.getTime());
+        return cloned;
+    }
+
+    if (obj instanceof Array) {
+        let l;
+        cloned = [];
+        for (i = 0, l = obj.length; i < l; i++) {
+            cloned[i] = clonar(obj[i]);
+        }
+
+        return cloned;
+    }
+
+    cloned = {};
+    for (i in obj) if (obj.hasOwnProperty(i)) {
+        cloned[i] = clonar(obj[i]);
+    }
+
+    return cloned;
 }
+
 
 function imprime_geracao(geracao_atual, mais_fitness, cont) {
     for (let index = 0; index < geracao_atual.length; index++) {
@@ -229,10 +257,8 @@ function rodar(tarefas) {
 
 
     if (mais_fitness.length == 0) {
-        console.log("o melhor")
         return melhor;
     } else {
-        console.log("o mais fitness")
         return mais_fitness;
     }
 }

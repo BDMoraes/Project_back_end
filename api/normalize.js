@@ -18,7 +18,6 @@ module.exports = app => {
         const requisicao =  req.params.id
 
         try {
-
             const id = requisicao;
 
             const dailyFromDB = await app.db('daily')
@@ -47,21 +46,12 @@ module.exports = app => {
 
             const sequencia = Array.from(AG.rodar(array_taks));
 
-            console.log(sequencia[0])
-            console.log("tamanho:" + tasksDB.length)
-            console.log(sequencia[0].tarefas[4].simbolo)
-
             for (let index = 0; index < tasksDB.length; index++) {
                 app.db('tasks')
                     .where({ id: sequencia[0].tarefas[index].id })
                     .update({ sequenciamento: sequencia[0].tarefas[index].simbolo })
+                    .then()
             }
-
-            // if (sequencia != undefined) {
-            //     app.db('daily')
-            //         .where({ id: id })
-            //         .update({ status: "ativo" })
-            // }
 
             res.status(204).send();
 

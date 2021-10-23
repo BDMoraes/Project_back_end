@@ -15,9 +15,6 @@ module.exports = app => {
         let hora = hourC + minC
 
         task.entrega = parseFloat(hora)
-        console.log("==============================")
-        console.log(task.entrega)
-        console.log("==============================")
 
         try {
             existsOrError(task.status, 'Status não informado')
