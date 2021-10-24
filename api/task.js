@@ -79,7 +79,6 @@ module.exports = app => {
 
     const waitingTasks = (req, res) => {
         const tasksFromDaily = req.params.id
-
         app.db('tasks')
             .where({ dailyId: tasksFromDaily, status: 'aguardando' })
             .then(tasks => res.json(tasks))
@@ -88,7 +87,6 @@ module.exports = app => {
 
     const runningTasks = (req, res) => {
         const tasksFromDaily = req.params.id
-
         app.db('tasks')
             .where({ dailyId: tasksFromDaily, status: 'andamento' })
             .then(tasks => res.json(tasks))
@@ -96,20 +94,15 @@ module.exports = app => {
     }
 
     const completeTasks = (req, res) => {
-
         const tasksFromDaily = req.params.id
-
         app.db('tasks')
             .where({ dailyId: tasksFromDaily, status: 'concluido' })
             .then(tasks => res.json(tasks))
             .catch(err => res.status(500).send(err))
     }
 
-
     const organizedTasks = (req, res) => {
-
         const tasksFromDaily = req.params.id
-
         app.db('tasks')
             .where({ dailyId: tasksFromDaily, status: 'andamento' })
             .orderBy('sequenciamento')
@@ -129,9 +122,7 @@ module.exports = app => {
     const finalizeTasks = async (req, res) => {
         const Daily = req.params.id
         const task = req.body
-
         try {
-
             await app.db('tasks')
                 .where({ id: task.id })
                 .update({ status: 'concluido', noPrazo: task.noPrazo })
@@ -141,9 +132,9 @@ module.exports = app => {
             if (finalizedTasks.length === 0) {
                 await app.db('daily')
                     .where({ id: Daily })
-                    .update({ status: 'finalizado'})
+                    .update({ status: 'finalizado' })
                     .then(daily => res.json(daily))
-            }else{
+            } else {
                 res.status(204).send()
             }
 

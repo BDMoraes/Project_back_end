@@ -63,9 +63,7 @@ module.exports = app => {
     }
 
     const waitingDailys = (req, res) => {
-
         const dailysUser = req.params.id
-
         app.db('daily')
             .where({ userId: dailysUser, status: 'aguardando' })
             .first()
@@ -74,9 +72,7 @@ module.exports = app => {
     }
 
     const runningDailys = (req, res) => {
-
         const dailysUser = req.params.id
-
         app.db('daily')
             .where({ userId: dailysUser, status: 'andamento' })
             .first()
@@ -85,11 +81,9 @@ module.exports = app => {
     }
 
     const completeDailys = (req, res) => {
-
         const dailysUser = req.params.id
-
         app.db('daily')
-            .where({ userId: dailysUser, status: 'concluido' })
+            .where({ userId: dailysUser, status: 'finalizado' })
             .then(daily => res.json(daily))
             .catch(err => res.status(500).send(err))
     }
