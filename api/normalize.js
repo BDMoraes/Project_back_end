@@ -15,7 +15,7 @@ module.exports = app => {
     }
 
     const start = async (req, res) => {
-        const requisicao =  req.params.id
+        const requisicao = req.params.id
 
         try {
             const id = requisicao;
