@@ -45,7 +45,7 @@ module.exports = app => {
         .get(app.api.task.getById)
         .put(app.api.task.save)
         .delete(app.api.task.remove)
-    
+
     app.route('/query-waiting-tasks/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.task.waitingTasks)
@@ -65,6 +65,10 @@ module.exports = app => {
     app.route('/updateTasks/:id')
         .all(app.config.passport.authenticate())
         .put(app.api.task.updateTasks)
+
+    app.route('/finalizeTasks/:id')
+        .all(app.config.passport.authenticate())
+        .put(app.api.task.finalizeTasks)
 
     app.route('/normalizies/:id')
         .all(app.config.passport.authenticate())

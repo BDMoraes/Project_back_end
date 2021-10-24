@@ -104,7 +104,7 @@ module.exports = app => {
             .then(tasks => res.json(tasks))
             .catch(err => res.status(500).send(err))
     }
-    
+
 
     const organizedTasks = (req, res) => {
 
@@ -121,11 +121,39 @@ module.exports = app => {
         const Daily = req.params.id
         app.db('tasks')
             .where({ dailyId: Daily })
-            .update({status: 'andamento'})
+            .update({ status: 'andamento' })
             .then(_ => res.status(204).send())
             .catch(err => res.status(500).send(err))
     }
 
-    return { save, getById, remove, waitingTasks, runningTasks, completeTasks, 
-            organizedTasks, updateTasks }
+    const finalizeTasks = async (req, res) => {
+        const Daily = req.params.id
+        const task = req.body
+
+        try {
+
+            await app.db('tasks')
+                .where({ id: task.id })
+                .update({ status: 'concluido', noPrazo: task.noPrazo })
+
+            const finalizedTasks = await app.db('tasks').where({ dailyId: Daily, status: 'andamento' })
+
+            if (finalizedTasks.length === 0) {
+                await app.db('daily')
+                    .where({ id: Daily })
+                    .update({ status: 'finalizado'})
+                    .then(daily => res.json(daily))
+            }else{
+                res.status(204).send()
+            }
+
+        } catch (msg) {
+            res.status(400).send(msg)
+        }
+    }
+
+    return {
+        save, getById, remove, waitingTasks, runningTasks, completeTasks,
+        organizedTasks, updateTasks, finalizeTasks
+    }
 }
