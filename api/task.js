@@ -5,17 +5,6 @@ module.exports = app => {
         const task = { ...req.body }
         task.id = req.params.id
 
-        let data = task.entrega
-        let hour = data.substr(0, 2)
-        let min = data.substring(3, 5)
-        let minE = "0." + min
-        let hourE = hour + ".0"
-        let hourC = parseFloat(hourE)
-        let minC = parseFloat(minE)
-        let hora = hourC + minC
-
-        task.entrega = parseFloat(hora)
-
         try {
             existsOrError(task.status, 'Status não informado')
             existsOrError(task.dailyId, 'Diário não informado')
@@ -24,6 +13,16 @@ module.exports = app => {
             existsOrError(task.entrega, 'Horário não informado')
             existsOrError(task.titulo, 'Título não informado')
             existsOrError(task.descricao, 'Descrição não informada')
+
+            let data = task.entrega
+            let hour = data.substr(0, 2)
+            let min = data.substring(3, 5)
+            let minE = "0." + min
+            let hourE = hour + ".0"
+            let hourC = parseFloat(hourE)
+            let minC = parseFloat(minE)
+            let hora = hourC + minC
+            task.entrega = parseFloat(hora)
 
             const id = task.dailyId;
 
@@ -122,10 +121,12 @@ module.exports = app => {
     const finalizeTasks = async (req, res) => {
         const Daily = req.params.id
         const task = req.body
+
+        
         try {
             await app.db('tasks')
                 .where({ id: task.id })
-                .update({ status: 'concluido', noPrazo: task.noPrazo })
+                .update({ status: 'concluido', noPrazo: task.noPrazo, finalizacao: task.finalizacao })
 
             const finalizedTasks = await app.db('tasks').where({ dailyId: Daily, status: 'andamento' })
 
