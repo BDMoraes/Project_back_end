@@ -4,6 +4,8 @@ const db = require('./config/db');
 
 app.db = db;
 
+const PORT = process.env.PORT || 4000;
+
 consign()
     .include('config/passport.js')
     .then('config/middlewares.js')
@@ -12,7 +14,7 @@ consign()
     .then('config/routes.js')
     .into(app)
 
-app.listen(4000, () => {
-    console.log("Executando...");
+app.listen(PORT, () => {
+    console.log("Executando..." + PORT);
 })
 
