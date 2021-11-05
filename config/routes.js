@@ -58,7 +58,7 @@ module.exports = app => {
         .all(app.config.passport.authenticate())
         .get(app.api.task.completeTasks)
 
-    app.route('/query-ordanized-tasks/:id')
+    app.route('/query-organized-tasks/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.task.organizedTasks)
 
