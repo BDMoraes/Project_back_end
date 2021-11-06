@@ -15,6 +15,6 @@ consign()
     .into(app)
 
 app.listen(PORT, () => {
-    console.log("Executando..." + PORT);
+    console.log("Executando...");
 })
 
