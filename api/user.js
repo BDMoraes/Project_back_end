@@ -89,7 +89,7 @@ module.exports = app => {
 
         if (user.id) {
             app.db('users')
-                .update()
+                .update(user)
                 .where({ id: user.id })
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
