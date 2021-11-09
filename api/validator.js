@@ -1,11 +1,11 @@
 module.exports = app => {
-    function existsOrError(value , msg){
-        if(!value) throw msg;
-        if(Array.isArray(value) && value.length === 0) throw msg;
-        if(typeof value === 'string' && !value.trim()) throw msg;
+    function existsOrError(value, msg) {
+        if (!value) throw msg;
+        if (Array.isArray(value) && value.length === 0) throw msg;
+        if (typeof value === 'string' && !value.trim()) throw msg;
     }
 
-    function notExistsOrError(value, msg){
+    function notExistsOrError(value, msg) {
         try {
             existsOrError(value, msg);
         } catch (msg) {
@@ -14,13 +14,13 @@ module.exports = app => {
         throw msg
     }
 
-    function equalsOrError(valueX, valueY, msg){
-        if(valueX !== valueY) throw msg
+    function equalsOrError(valueX, valueY, msg) {
+        if (valueX !== valueY) throw msg
     }
 
-    function minPassword(value, msg){
-        if(value.length < 6) throw msg
+    function minPassword(value, msg) {
+        if (value.length < 6) throw msg
     }
 
-    return {existsOrError, notExistsOrError, equalsOrError, minPassword}
+    return { existsOrError, notExistsOrError, equalsOrError, minPassword }
 }
