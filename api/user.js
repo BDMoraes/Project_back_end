@@ -20,7 +20,6 @@ module.exports = app => {
             equalsOrError(user.senha, user.confirmSenha, 'Senhas não conferem')
             minPassword(user.senha, 'Senha precisa ter no mínimo 6 caracteres')
 
-
             if (!user.id) {
                 const userFromDB = await app.db('users')
                     .where({ email: user.email }).first()
