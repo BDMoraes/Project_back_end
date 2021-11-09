@@ -11,7 +11,7 @@ module.exports = app => {
     app.route('/users/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.user.getById)
-        .put(app.api.user.save)
+        .put(app.api.user.alterPass)
         .delete(app.api.user.remove)
 
     app.route('/dailys')
