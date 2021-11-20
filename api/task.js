@@ -142,7 +142,7 @@ module.exports = app => {
             if (finalizedTasks.length === 0) {
                 await app.db('daily')
                     .where({ id: Daily })
-                    .update({ status: 'finalizado' })
+                    .update({ status: 'finalizado'})
                     .then(daily => res.json(daily))
             } else {
                 res.status(204).send()
