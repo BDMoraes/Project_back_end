@@ -7,7 +7,7 @@
     "dev": "nodemon",
     "start": "node index.js",
     "production": "pm2 start index.js",
-    "migrate": "knex migrate:latest"
+    "migrate": "knex migrate:down 20210824020531_create_table_tasks.js"
   },
   "repository": {
     "type": "git",
