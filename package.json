@@ -8,6 +8,7 @@
     "start": "node index.js",
     "production": "pm2 start index.js",
     "migrate": "knex migrate:rollback"
+
     
   },
   "repository": {
