@@ -118,6 +118,16 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
+    const initTasks = (req, res) => {
+        const task = { ...req.body }
+        task.id = req.params.id
+        app.db('tasks')
+            .where({ id: task.id })
+            .update({ inicializacao: task.inicializacao })
+            .then(_ => res.status(204).send())
+            .catch(err => res.status(500).send(err))
+    }
+
     const finalizeTasks = async (req, res) => {
         const Daily = req.params.id
         const task = req.body
@@ -146,6 +156,6 @@ module.exports = app => {
 
     return {
         save, getById, remove, waitingTasks, runningTasks, completeTasks,
-        organizedTasks, updateTasks, finalizeTasks
+        organizedTasks, updateTasks, finalizeTasks, initTasks
     }
 }

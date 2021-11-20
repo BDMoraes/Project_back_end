@@ -66,6 +66,10 @@ module.exports = app => {
         .all(app.config.passport.authenticate())
         .put(app.api.task.updateTasks)
 
+    app.route('/initTasks/:id')
+        .all(app.config.passport.authenticate())
+        .put(app.api.task.initTasks)
+        
     app.route('/finalizeTasks/:id')
         .all(app.config.passport.authenticate())
         .put(app.api.task.finalizeTasks)
