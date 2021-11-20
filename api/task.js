@@ -123,7 +123,7 @@ module.exports = app => {
         task.id = req.params.id
         app.db('tasks')
             .where({ id: task.id })
-            .update({ inicializacao: task.inicializacao })
+            .update({ inicializacao: task.inicializacao, diaInicializacao: task.diaInicializacao })
             .then(_ => res.status(204).send())
             .catch(err => res.status(500).send(err))
     }
