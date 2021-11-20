@@ -18,7 +18,6 @@ class individuo {
             }
             return calc_eficiencia;
         }
-
     }
 }
 

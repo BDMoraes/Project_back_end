@@ -132,7 +132,6 @@ module.exports = app => {
         const Daily = req.params.id
         const task = req.body
 
-
         try {
             await app.db('tasks')
                 .where({ id: task.id })
