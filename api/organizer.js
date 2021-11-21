@@ -183,15 +183,6 @@ function mutacao(tarefas, registros_geracao, tamanho_pop) {
     }
 }
 
-// function clonar(object) {
-//     let clone = {};
-//     for (var i in object) {
-//         const item = object[i];
-//         clone[i] = item != null && typeof item == 'object' ? clonar(item) : item;
-//     }
-//     return clone;
-// }
-
 const clonar = obj => {
 
     if (typeof obj !== 'object' || obj === null) {

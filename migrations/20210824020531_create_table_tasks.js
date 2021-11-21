@@ -1,4 +1,3 @@
-
 exports.up = function (knex) {
     return knex.schema.createTable('tasks', table => {
         table.increments('id').primary();
@@ -13,7 +12,6 @@ exports.up = function (knex) {
         table.decimal('finalizacao');
         table.integer('dailyId').references('id').inTable('daily').notNull();
     })
-
 };
 
 exports.down = function (knex) {

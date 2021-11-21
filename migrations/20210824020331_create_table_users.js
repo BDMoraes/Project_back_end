@@ -1,4 +1,3 @@
-
 exports.up = function (knex) {
     return knex.schema.createTable('users', table => {
         table.increments('id').primary();
@@ -6,7 +5,6 @@ exports.up = function (knex) {
         table.string('email').notNull().unique();
         table.string('senha').notNull();
     })
-
 };
 
 exports.down = function (knex) {
