@@ -135,7 +135,8 @@ module.exports = app => {
         try {
             await app.db('tasks')
                 .where({ id: task.id })
-                .update({ status: 'concluido', noPrazo: task.noPrazo, finalizacao: task.finalizacao })
+                .update({ status: 'concluido', noPrazo: task.noPrazo, finalizacao: task.finalizacao, 
+                        diaFinalizacao: task.diaFinalizacao })
 
             const finalizedTasks = await app.db('tasks').where({ dailyId: Daily, status: 'andamento' })
 
