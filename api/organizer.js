@@ -243,8 +243,7 @@ function rodar(tarefas) {
     do {
         selecao(tarefas, registros_geracao, tamanho_pop, mais_fitness, cont);
         mutacao(tarefas, registros_geracao, tamanho_pop);
-    } while (mais_fitness.length == 0 && cont < 350);
-
+    } while (mais_fitness.length == 0 && cont < 550);
 
     if (mais_fitness.length == 0) {
         return melhor;

@@ -49,7 +49,7 @@ module.exports = app => {
             for (let index = 0; index < tasksDB.length; index++) {
                 app.db('tasks')
                     .where({ id: sequencia[0].tarefas[index].id })
-                    .update({ sequenciamento: sequencia[0].tarefas[index].simbolo })
+                    .update({ sequenciamento: index })
                     .then()
             }
 
