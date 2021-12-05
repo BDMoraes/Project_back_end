@@ -120,7 +120,7 @@ module.exports = app => {
             }
 
             const msg = {
-                to: "bruno.moraes@rede.ulbra.br",
+                to: email,
                 from: 'taskOrganizerApp@gmail.com',
                 subject: 'Alteração de senha do Task Organizer',
                 text: 'text',
