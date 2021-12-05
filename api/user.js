@@ -102,7 +102,7 @@ module.exports = app => {
     const forgotPass = async (req, res) => {
         const email = req.body.email;
         try {
-
+            existsOrError(email, 'Email não informado!')
             const userFromDB = await app.db('users')
                 .where({ email: email }).first()
             existsOrError(userFromDB, 'Email não cadastrado!')
