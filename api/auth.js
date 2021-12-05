@@ -12,7 +12,7 @@ module.exports = app => {
             .where({ email: req.body.email })
             .first()
 
-        if (!user) return res.status(400).send('Usuário não encontrado!')
+        if (!user) return res.status(400).send('Usuário não encontrado!');
 
         const isMatch = bcrypt.compareSync(req.body.senha, user.senha)
         if (!isMatch) return res.status(401).send('Email/Senha inválidos!')

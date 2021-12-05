@@ -13,6 +13,9 @@ module.exports = app => {
         .get(app.api.user.getById)
         .put(app.api.user.alterPass)
         .delete(app.api.user.remove)
+    
+    app.route('/forgotPass')
+        .post(app.api.user.forgotPass)
 
     app.route('/dailys')
         .all(app.config.passport.authenticate())

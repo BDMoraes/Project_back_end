@@ -1,4 +1,7 @@
 const bcrypt = require('bcrypt');
+const sgMail = require('@sendgrid/mail')
+require('dotenv').config()
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 module.exports = app => {
     const { existsOrError, notExistsOrError, equalsOrError, minPassword } = app.api.validator
@@ -6,6 +9,7 @@ module.exports = app => {
     const encryptPassword = password => {
         const salt = bcrypt.genSaltSync(10)
         return bcrypt.hashSync(password, salt)
+
     }
 
     const save = async (req, res) => {
@@ -95,6 +99,43 @@ module.exports = app => {
                 .catch(err => res.status(500).send(err))
         }
     }
+    const forgotPass = async (req, res) => {
+        const email = req.body.email;
+        try {
 
-    return { save, getById, remove, alterPass }
+            const userFromDB = await app.db('users')
+                .where({ email: email }).first()
+            existsOrError(userFromDB, 'Email não cadastrado!')
+
+            const forgotP = Math.floor(100000 + Math.random() * 900000);
+
+            userFromDB.senha = encryptPassword(forgotP.toString());
+
+            if (userFromDB.id) {
+                app.db('users')
+                    .update(userFromDB)
+                    .where({ id: userFromDB.id })
+                    .then()
+                    .catch()
+            }
+
+            const msg = {
+                to: "bruno.moraes@rede.ulbra.br",
+                from: 'taskOrganizerApp@gmail.com',
+                subject: 'Alteração de senha do Task Organizer',
+                text: 'text',
+                html: `Sua nova senha de acesso ao Task Organizer é: <strong>${forgotP}</strong>`
+            }
+
+            sgMail.send(msg).then(() => {
+            }).catch((error) => {
+            })
+            res.status(204).send()
+        } catch (msg) {
+            res.status(400).send(msg)
+        }
+    }
+
+
+    return { save, getById, remove, alterPass, forgotPass }
 }
