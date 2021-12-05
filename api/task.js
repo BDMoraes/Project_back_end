@@ -1,3 +1,7 @@
+const sgMail = require('@sendgrid/mail')
+require('dotenv').config()
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
 module.exports = app => {
     const { existsOrError, notExistsOrError } = app.api.validator
 
@@ -135,15 +139,17 @@ module.exports = app => {
         try {
             await app.db('tasks')
                 .where({ id: task.id })
-                .update({ status: 'concluido', noPrazo: task.noPrazo, finalizacao: task.finalizacao, 
-                        diaFinalizacao: task.diaFinalizacao })
+                .update({
+                    status: 'concluido', noPrazo: task.noPrazo, finalizacao: task.finalizacao,
+                    diaFinalizacao: task.diaFinalizacao
+                })
 
             const finalizedTasks = await app.db('tasks').where({ dailyId: Daily, status: 'andamento' })
 
             if (finalizedTasks.length === 0) {
                 await app.db('daily')
                     .where({ id: Daily })
-                    .update({ status: 'finalizado'})
+                    .update({ status: 'finalizado' })
                     .then(daily => res.json(daily))
             } else {
                 res.status(204).send()
@@ -154,8 +160,45 @@ module.exports = app => {
         }
     }
 
+    const sendAlert = async (req, res) => {
+        const task = req.body;
+
+        if (task.sent === null) {
+            try {
+                await app.db('tasks')
+                    .where({ id: task.id })
+                    .update({ sent: 1 })
+
+                const userFromDB = await app.db('daily')
+                    .select('userId')
+                    .where({ id: task.dailyId })
+
+                const dadosUser = await app.db('users')
+                    .select('email')
+                    .where({ id: userFromDB[0].userId })
+
+                const msg = {
+                    to: dadosUser,
+                    from: 'taskOrganizerApp@gmail.com',
+                    subject: 'Alerta de vencimento de tarefa - Task Organizer',
+                    text: 'text',
+                    html: `Atenção com a entrega da tarefa: <strong>${task.titulo}</strong> - <strong>${task.entrega}</strong> no Task Organizer!`
+                }
+
+                sgMail.send(msg).then(() => {
+                }).catch((error) => {
+                })
+                res.status(204).send()
+            } catch (msg) {
+                res.status(400).send(msg)
+            }
+        }
+
+
+    }
+
     return {
         save, getById, remove, waitingTasks, runningTasks, completeTasks,
-        organizedTasks, updateTasks, finalizeTasks, initTasks
+        organizedTasks, updateTasks, finalizeTasks, initTasks, sendAlert
     }
 }

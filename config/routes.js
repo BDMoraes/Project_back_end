@@ -76,10 +76,13 @@ module.exports = app => {
     app.route('/finalizeTasks/:id')
         .all(app.config.passport.authenticate())
         .put(app.api.task.finalizeTasks)
+    
+    app.route('/sendAlert')
+        .all(app.config.passport.authenticate())
+        .post(app.api.task.sendAlert)
 
     app.route('/normalizies/:id')
         .all(app.config.passport.authenticate())
         .post(app.api.normalize.start)
-
 
 }

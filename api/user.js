@@ -136,6 +136,5 @@ module.exports = app => {
         }
     }
 
-
     return { save, getById, remove, alterPass, forgotPass }
 }
